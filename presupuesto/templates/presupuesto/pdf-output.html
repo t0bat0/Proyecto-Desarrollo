@@ -1,0 +1,30 @@
+
+
+<h2>Resumen de presupuesto {{presupuesto.nombre}} de {{presupuesto.id_cliente}}</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Modulo</th>
+      <th>Cantidad</th>
+      <th>Precio</th>
+    </tr>
+  </thead>
+  {%for producto in productopresupuesto%}
+  <tr>
+    <td>{{producto.producto.nombre}}</td>
+    <td>{{producto.producto_cantidad}}</td>
+    <td>${{producto.precio_producto}}</td>
+  </tr>
+ {%endfor%}
+  <tbody>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td></td>
+      <th>Total</th>
+      <td>${{total}}</td>
+    </tr>
+  </tfoot>
+</table>
+    
+    

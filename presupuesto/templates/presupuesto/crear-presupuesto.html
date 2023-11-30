@@ -1,0 +1,21 @@
+{% extends "presupuesto/layouts/base.html" %}
+
+{% block extrastyle%}
+<link rel="stylesheet" href="{{ form.media.css }}">
+<style>.select-dropdown{
+      color: aliceblue !important;
+    }</style>
+{% endblock %} 
+
+{% block content %}
+<form method="POST"   style="color: aliceblue;">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn waves-effect  modal-trigger" type="submit">
+            <i class="material-icons white-text left">add_circle</i> 
+             Crear Presupuesto
+        </button>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,27 @@
+name: Build Docker image
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.ACTION_USER }}
+          password: ${{ secrets.ACTION_TOKEN }}
+          
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ghcr.io/t0bat0/midjango
+
+      - name: Publish to Github Registry
+        run: docker push ghcr.io/t0bat0/midjango
+        

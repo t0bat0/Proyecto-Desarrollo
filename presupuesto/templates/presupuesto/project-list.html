@@ -1,0 +1,17 @@
+{% extends "presupuesto/layouts/base.html" %}
+{%block nav%}
+{%endblock%}
+{% block content %}
+
+
+    <div class="collection">
+        <a href="{% url 'elegir' %}" class="collection-item">Presupuestos</a>
+        <a href="{% url 'crear_cliente' %}" class="collection-item ">Crear clientes</a>
+        <a href="{% url 'crear_presupuesto' %}" class="collection-item">Crear presupuesto</a>
+      </div>
+
+
+
+
+{% endblock %}
+

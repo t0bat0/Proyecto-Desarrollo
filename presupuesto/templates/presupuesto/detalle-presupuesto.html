@@ -1,0 +1,183 @@
+{% extends "presupuesto/layouts/base.html" %}
+{% block extrastyle%}
+{{ form.media.css }}
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+    
+    <section class="section section-stats">
+
+        <div class="row">
+        
+        <div class="col s12 m12 l4">
+            <div class="card-panel">
+                <h6 class="bold">nombre del presupuesto</h6>
+                <h4 class="bold">{{presupuesto.nombre}}</h4>
+            </div>
+        </div>
+        <div class="col s12 m6 l4">
+            <div class="card-panel">
+                <h6 class="bold">presupuesto total</h6>
+                <h4 class="bold">{{total}}</h4>
+            </div>
+        </div>
+        
+        <div class="col s12 m6 l4">
+            <div class="card-panel large ">
+                <h6 class="bold">Modulos agregados</h6>
+                <h4 class="bold" >${{cantida_productos}}</h4>
+            </div>
+
+
+        </div>
+        </div>
+
+        </div>
+ 
+        </section>  
+
+        <section class="section section-expenses">
+            <div class="row ">
+                <button class="btn waves-effect waves-light right modal-trigger" href="#expense">
+                    <i class="material-icons white-text left">add_circle</i> 
+                     agrega modulo
+                </button>
+            
+               
+            </div>
+
+            <ul class="z-depth-1">
+               
+                <li>
+                    <div class="card-panel cyan lighten-3 z-depth-0 expense">
+                        <div class="row">
+                            <div class="col l3">
+                                <span class="title bold">Modulo</span>
+                            </div>
+        
+                            <div class="col l3">
+                                <span class="title bold">Alto</span>
+                            </div>
+        
+                            <div class="col l4">
+                                <span class="title bold ">Ancho</span>
+                            </div>
+                            <div class="col l1">
+                                <span class="title bold">Precio</span>
+                            </div>
+                          
+                            
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+
+            {%for producto in productopresupuesto%}
+                <ul class="z-depth-1">
+               
+                <li>
+                    <div class="card-panel z-depth-0 expense">
+                        <div class="row">
+                            <div class="col l3">
+                                <span class="title">{{producto.producto.nombre}} </span>
+                            </div>
+        
+                            <div class="col l3">
+                                <span class="title">{{producto.alto}}</span>
+                            </div>
+        
+                            <div class="col l4">
+                                <span class="title ">{{producto.ancho}}</span>
+                            </div>
+                            <div class="col l1">
+                                <span class="title">{{producto.precio_producto}}</span>
+                            </div>
+                            <a href="{{presupuesto.slug}}" class="eliminar-producto" data-producto-id="{{ producto.id }}" >
+                                <i class="material-icons red-text right">close</i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+            {%endfor%}
+                 
+        </section>
+        <!---->
+        <div id="expense" class="modal">
+            <div class="modal-content"zz>
+                <h4>agregar producto</h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form}}
+                    <button type="submit" class="btn">agregar modulo</button>
+                </form>
+            </div>
+        
+        </div>
+      
+        <a class="btn waves-effect waves-light right"  href="{% url 'crearpdf'  slug_presupuesto=presupuesto.slug %}" name="action">Crear PDF
+            <i class="material-icons  white-text right">picture_as_pdf</i>
+        </a>
+</div>
+
+<!--
+<div id="expense" class="">
+    <div class="">
+        <h4>agregar producto</h4>
+        <form method="POST">
+            <div class="input-field">
+                {% csrf_token %}
+            {{ form.as_p }}
+            </div>
+            
+            <input type="submit">
+        </form>
+        
+        {{ form.media.js }}
+    </div>
+
+</div>
+-->
+
+<script>
+    var elem = document.querySelector('.modal')
+    var instance = M.Modal.init(elem)
+
+    var elem = document.querySelector('select')
+    var instance = M.FormSelect.init(elem)
+
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $(".eliminar-producto").click(function(e) {
+           // e.preventDefault();  // Evita que el enlace te lleve a otra página
+            var productoId = $(this).data("producto-id");
+
+            // Realiza una solicitud AJAX para eliminar el producto del presupuesto
+            $.ajax({
+                url: "/eliminar-producto/{{ presupuesto.slug }}/" + productoId + "/",  // URL de la vista para eliminar productos
+                type: "POST",
+                data: { 
+                    producto_id: productoId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}' 
+                },
+                success: function(data) {
+                    // Elimina el elemento del DOM
+                    $(this).closest("li").remove();
+                }
+            });
+        });
+    });
+</script>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends "presupuesto/layouts/base.html" %}
+{% block extrastyle%}
+<style>input{
+    color: aliceblue;}
+    li{
+        color: aliceblue;
+    }
+</style>
+{%endblock%}
+
+
+{%block nav%}
+{%endblock%}
+{% block content %}
+    <h2 style="color: aliceblue;">Inicio de  Sesión</h2>
+    <form method="post" action="{% url 'iniciar_sesion'  %}?next={{ request.GET.next }}" >
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn waves-effect left modal-trigger" type="submit">Iniciar Sesión</button>
+    </form>
+{% endblock %}

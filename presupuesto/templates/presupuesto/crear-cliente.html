@@ -1,0 +1,15 @@
+{% extends "presupuesto/layouts/base.html" %}
+{% block extrastyle%}
+{{ form.media.css }}
+{% endblock %}
+{% block content %}
+<form method="POST" style="color: aliceblue; ">
+ {% csrf_token %} 
+ <div style=> 
+ {{ form.as_p }}
+ <input type="submit">
+</div>
+</form>
+
+{% endblock %}
+ 

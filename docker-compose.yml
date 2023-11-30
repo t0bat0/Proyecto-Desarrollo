@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysqldjango
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: 
+      MYSQL_USER: 
+      MYSQL_PASSWORD: 
+
+  django:
+    image: midjango
+    ports:
+      - 8000:8000
+    environment:
+      - DJANGO_DATABASE_HOST=mysqldjango
+      - DJANGO_DATABASE_NAME=
+      - DJANGO_DATABASE_USER=
+      - DJANGO_DATABASE_PASSWORD=
+
+ 
